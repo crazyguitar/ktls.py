@@ -40,3 +40,12 @@ $ make test
 # run all tests and lint
 $ make
 ```
+
+## Reference
+
+1. [KTLS: Linux Kernel Transport Layer Security](https://netdevconf.org/1.2/papers/ktls.pdf)
+2. [brno university of technology linux vpn performance and optimization](https://dspace.vutbr.cz/bitstream/handle/11012/61908/18032.pdf?sequence=2&isAllowed=y)
+3. [Improving High-Bandwidth TLS in the FreeBSD kernel](https://openconnect.netflix.com/publications/asiabsd_tls_improved.pdf)
+4. [Optimizing TLS for High-Bandwidth Applications in FreeBSD](https://people.freebsd.org/~rrs/asiabsd_2015_tls.pdf)
+5. [TLS in the kernel](https://lwn.net/Articles/666509/)
+6. [Playing with kernel TLS in Linux 4.13 and Go](https://blog.filippo.io/playing-with-kernel-tls-in-linux-4-13-and-go/)

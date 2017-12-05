@@ -4,7 +4,7 @@
 
 ktls.py provides several scripts to test linux kernel TLS in Python.
 
-## Prerequest
+## Prerequisite
 
 1. Linux kernel 4.13 or above (option CONFIG\_TLS=y or CONFIG\_TLS=m)
 2. openssl 1.0.x
@@ -35,7 +35,7 @@ $ vagrant ssh
 $ make lint
 
 # run the tests
-make test
+$ make test
 
 # run all the tests and lint
 $ make

@@ -25,10 +25,7 @@ struct tls12_crypto_info_aes_gcm_128 {
 """
 import contextlib
 import socket
-import time
-import json
 import ssl
-import os
 
 from struct import pack
 
@@ -85,16 +82,16 @@ def set_ktls_sockopt(sslsock):
         e_msg = "ktls only support ECDH-ECDSA-AES128-GCM-SHA256 now."
         raise OSError(e_msg)
 
-    seq  = ktls_cipher['seq']
-    key  = ktls_cipher['key']
-    iv   = ktls_cipher['iv']
+    seq = ktls_cipher['seq']
+    key = ktls_cipher['key']
+    iv = ktls_cipher['iv']
     salt = ktls_cipher['salt']
 
     tls12_crypto_info_aes_gcm_128 = pack(
-         '2s2s8s16s4s8s',
-         pack('=H', socket.TLS_1_2_VERSION),
-         pack('=H', socket.TLS_CIPHER_AES_GCM_128),
-         iv, key, salt, seq)
+        '2s2s8s16s4s8s',
+        pack('=H', socket.TLS_1_2_VERSION),
+        pack('=H', socket.TLS_CIPHER_AES_GCM_128),
+        iv, key, salt, seq)
 
     # setsockopt ktl related options
     sslsock.setsockopt(socket.SOL_TCP,

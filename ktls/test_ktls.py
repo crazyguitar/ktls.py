@@ -1,5 +1,4 @@
 import unittest
-import hashlib
 import time
 import os
 
@@ -8,6 +7,7 @@ from threading import Thread
 from .utils import client, server, set_ktls_sockopt
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+
 
 def generate_test_file(name: str, size: int):
     """generate a random test file
@@ -23,7 +23,7 @@ def generate_test_file(name: str, size: int):
 def sendfile(outfd: int, infd: int, count: int):
     """doing sendfile
 
-    :param outfd: outbound file descriptor 
+    :param outfd: outbound file descriptor
     :param infd: inbound fd descriptor
     :param count: number of bytes writes to outbound
     """
@@ -61,7 +61,7 @@ def recv(client, count: int) -> str:
     for c in iter(lambda: client.recv(count), b''):
         msg += c
 
-    return msg 
+    return msg
 
 
 def read(infile, count: int) -> str:
@@ -76,7 +76,7 @@ def read(infile, count: int) -> str:
     for c in iter(lambda: infile.read(count), b''):
         msg += c
 
-    return msg 
+    return msg
 
 
 class TestKTLS(unittest.TestCase):
@@ -86,12 +86,11 @@ class TestKTLS(unittest.TestCase):
     PORT = 4433
     CERT = os.path.join(CURRENT_DIR, "cert.pem")
     KEY = os.path.join(CURRENT_DIR, "key.pem")
-    CIPHER_SUITE = "ECDH-ECDSA-AES128-GCM-SHA256" 
+    CIPHER_SUITE = "ECDH-ECDSA-AES128-GCM-SHA256"
 
     def setUp(self):
         """create test files"""
         generate_test_file(self.TEST_FILE, 4096)
-
 
     def tearDown(self):
         """remove test files"""
@@ -103,11 +102,10 @@ class TestKTLS(unittest.TestCase):
         """ktls test client thread"""
         time.sleep(3)
         with open(self.TEST_FILE, 'rb') as f, \
-             client(self.HOST, self.PORT) as c:
+                client(self.HOST, self.PORT) as c:
             msg = recv(c, 4096)
             raw = read(f, 4096)
             self.assertEqual(msg, raw)
-
 
     def test_send(self):
         """ktls send related test"""
@@ -116,8 +114,8 @@ class TestKTLS(unittest.TestCase):
         t.start()
 
         with open(self.TEST_FILE, 'rb') as f, \
-             server(self.HOST, self.PORT, self.CERT, \
-                    self.KEY, self.CIPHER_SUITE) as (s, sslctx):
+                server(self.HOST, self.PORT, self.CERT,
+                       self.KEY, self.CIPHER_SUITE) as (s, sslctx):
 
             conn, addr = s.accept()
             sslconn = sslctx.wrap_socket(conn, server_side=True)
@@ -127,7 +125,6 @@ class TestKTLS(unittest.TestCase):
 
         t.join()
 
-
     def test_sendfile(self):
         """ktls sendfile related test"""
         t = Thread(target=self._client_thread, args=(self.HOST, self.PORT,))
@@ -135,8 +132,8 @@ class TestKTLS(unittest.TestCase):
         t.start()
 
         with open(self.TEST_FILE, 'rb') as f, \
-             server(self.HOST, self.PORT, self.CERT, \
-                    self.KEY, self.CIPHER_SUITE) as (s, sslctx):
+                server(self.HOST, self.PORT, self.CERT,
+                       self.KEY, self.CIPHER_SUITE) as (s, sslctx):
 
             conn, addr = s.accept()
             sslconn = sslctx.wrap_socket(conn, server_side=True)

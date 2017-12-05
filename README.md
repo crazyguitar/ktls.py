@@ -1,5 +1,7 @@
 # Playing Kernel TLS in Python
 
+[![Build Status](https://travis-ci.org/crazyguitar/ktls.py.svg?branch=master)](https://travis-ci.org/crazyguitar/ktls.py)
+
 ktls.py provides several scripts to test linux kernel TLS in Python.
 
 ## Prerequest

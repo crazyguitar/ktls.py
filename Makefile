@@ -1,9 +1,9 @@
-.PHONY: all test clean
+.PHONY: all test lint clean
 
-all: test
+all: lint test
 
 test:
-	python3 ktls.py
-
+	python3.6 ktls.py
+lint:
+	flake8 ktls ktls.py
 clean:
-	rm -rf $(CERT) $(KEY)

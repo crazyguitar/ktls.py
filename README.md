@@ -31,6 +31,13 @@ $ vagrant ssh
 ## Run the tests
 
 ```
+# insert tls kernel module if tls is built as module
+$ sudo modprobe tls
+
+# checking tls kernel module has been inserted
+$ $ lsmod | grep tls
+tls                    20480  0
+
 # run lint
 $ make lint
 

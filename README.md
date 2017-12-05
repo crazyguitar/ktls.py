@@ -26,6 +26,12 @@ $ make -j 9 && sudo make altinstall
 $ vagrant init crazyguitar/xenial64 --box-version 20171205.0.0
 $ vagrant up
 $ vagrant ssh
+vagrant@vagrant:~$ git clone https://github.com/crazyguitar/ktls.py.git
+vagrant@vagrant:~$ cd ktls.py
+vagrant@vagrant:~/ktls.py$ virtualenv venv
+vagrant@vagrant:~/ktls.py$ source venv/bin/activate
+(venv) vagrant@vagrant:~/ktls.py$ pip install -r requirements.txt
+(venv) vagrant@vagrant:~/ktls.py$ make
 ```
 
 ## Run the tests

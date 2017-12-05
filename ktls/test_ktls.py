@@ -84,8 +84,8 @@ class TestKTLS(unittest.TestCase):
     TEST_FILE = os.path.join(CURRENT_DIR, ".ktls.tmp")
     HOST = 'localhost'
     PORT = 4433
-    CERT = os.path.join(CURRENT_DIR, "cert.pem")
-    KEY = os.path.join(CURRENT_DIR, "key.pem")
+    CERT = os.path.join(CURRENT_DIR, "ca", "cert.pem")
+    KEY = os.path.join(CURRENT_DIR, "ca", "key.pem")
     CIPHER_SUITE = "ECDH-ECDSA-AES128-GCM-SHA256"
 
     def setUp(self):
@@ -100,7 +100,7 @@ class TestKTLS(unittest.TestCase):
 
     def _client_thread(self, host, port):
         """ktls test client thread"""
-        time.sleep(3)
+        time.sleep(1)
         with open(self.TEST_FILE, 'rb') as f, \
                 client(self.HOST, self.PORT) as c:
             msg = recv(c, 4096)

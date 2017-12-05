@@ -2,7 +2,10 @@
 
 import unittest
 
-from ktls import TestKTLS
+from ktls import (
+    TestKTLS,
+    TestKTLShttps
+)
 
 if __name__ == "__main__":
     unittest.main()

@@ -8,8 +8,16 @@ from threading import Thread
 from http import server, client
 
 from .utils import set_ktls_sockopt
+from .config import (
+    CONFIG_PWD,
+    CONFIG_CERT,
+    CONFIG_KEY,
+    CONFIG_CLIENT_CERT,
+    CONFIG_CLIENT_KEY,
+    CONFIG_CIPHER_SUITE)
 
-CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+
+CURRENT_DIR = CONFIG_PWD
 
 HTML = b"""
 <html>
@@ -54,12 +62,12 @@ class TestKTLShttps(unittest.TestCase):
 
     HOST = 'localhost'
     PORT = 4433
-    CERT = os.path.join(CURRENT_DIR, "ca", "cert.pem")
-    KEY = os.path.join(CURRENT_DIR, "ca", "key.pem")
-    CIPHER_SUITE = "ECDH-ECDSA-AES128-GCM-SHA256"
+    CERT = CONFIG_CERT
+    KEY = CONFIG_KEY
+    CIPHER_SUITE = CONFIG_CIPHER_SUITE
 
-    CLIENT_CERT = os.path.join(CURRENT_DIR, "ca", "client.crt")
-    CLIENT_KEY = os.path.join(CURRENT_DIR, "ca", "client.key")
+    CLIENT_CERT = CONFIG_CLIENT_CERT
+    CLIENT_KEY = CONFIG_CLIENT_KEY
 
     def _server_thread(self, httpd):
         """start a https server thread"""

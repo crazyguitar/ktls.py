@@ -4,79 +4,23 @@ import os
 
 from threading import Thread
 
-from .utils import client, server, set_ktls_sockopt
+from .utils import (
+    client,
+    server,
+    send,
+    recv,
+    read,
+    sendfile,
+    generate_test_file,
+    set_ktls_sockopt)
 
-CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+from .config import (
+    CONFIG_PWD,
+    CONFIG_CERT,
+    CONFIG_KEY,
+    CONFIG_CIPHER_SUITE)
 
-
-def generate_test_file(name: str, size: int):
-    """generate a random test file
-
-    :param name: file name
-    :param size: file size
-    """
-    with open(name, 'wb') as f:
-        m = os.urandom(size)
-        f.write(m)
-
-
-def sendfile(outfd: int, infd: int, count: int):
-    """doing sendfile
-
-    :param outfd: outbound file descriptor
-    :param infd: inbound fd descriptor
-    :param count: number of bytes writes to outbound
-    """
-    offset = 0
-    st = os.fstat(infd)
-    total = st.st_size
-    byte = total
-
-    while byte > 0:
-        ret = os.sendfile(outfd, infd, offset, count)
-        byte -= ret
-        offset += ret
-
-
-def send(client, infile, count: int):
-    """doing send
-
-    :param client: outbound ssl socket
-    :param infile: inbound file object
-    """
-    fd = client.fileno()
-    for c in iter(lambda: infile.read(count), b''):
-        os.write(fd, c)
-
-
-def recv(client, count: int) -> str:
-    """doing ssl recv without zero-copy
-
-    :param client: socket object of client
-    :param count: number of bytes recv from socket buf
-
-    :return: recv message
-    """
-    msg = b''
-    for c in iter(lambda: client.recv(count), b''):
-        msg += c
-
-    return msg
-
-
-def read(infile, count: int) -> str:
-    """doing ssl recv without zero-copy
-
-    :param infile: file object of input file
-    :param count: number of bytes read from file
-
-    :return: read content
-    """
-    msg = b''
-    for c in iter(lambda: infile.read(count), b''):
-        msg += c
-
-    return msg
+CURRENT_DIR = CONFIG_PWD
 
 
 class TestKTLS(unittest.TestCase):
@@ -84,9 +28,9 @@ class TestKTLS(unittest.TestCase):
     TEST_FILE = os.path.join(CURRENT_DIR, ".ktls.tmp")
     HOST = 'localhost'
     PORT = 4433
-    CERT = os.path.join(CURRENT_DIR, "ca", "cert.pem")
-    KEY = os.path.join(CURRENT_DIR, "ca", "key.pem")
-    CIPHER_SUITE = "ECDH-ECDSA-AES128-GCM-SHA256"
+    CERT = CONFIG_CERT
+    KEY = CONFIG_KEY
+    CIPHER_SUITE = CONFIG_CIPHER_SUITE
 
     def setUp(self):
         """create test files"""

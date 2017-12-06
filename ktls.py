@@ -6,6 +6,7 @@ from ktls import (
     TestKTLS,
     TestKTLShttps,
     TestSendfile,
+    TestKTLSSend,
     TestTLSSend
 )
 

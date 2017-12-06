@@ -9,7 +9,9 @@ from .utils import (
     server,
     recv,
     read,
-    generate_test_file)
+    send,
+    generate_test_file,
+    set_ktls_sockopt)
 
 from .config import (
     CONFIG_PWD,
@@ -20,9 +22,9 @@ from .config import (
 CURRENT_DIR = CONFIG_PWD
 
 
-class TestTLSSend(unittest.TestCase):
+class TestKTLSSend(unittest.TestCase):
 
-    TEST_FILE = os.path.join(CURRENT_DIR, ".sendfile.tmp")
+    TEST_FILE = os.path.join(CURRENT_DIR, ".ktls.tmp")
     HOST = 'localhost'
     PORT = 4433
     CERT = CONFIG_CERT
@@ -43,13 +45,12 @@ class TestTLSSend(unittest.TestCase):
 
                 conn, addr = s.accept()
                 sslconn = ctx.wrap_socket(conn, server_side=True)
+                sslconn = set_ktls_sockopt(sslconn)
 
                 s = time.time()
-                for c in iter(lambda: f.read(8192), b''):
-                    sslconn.send(c)
+                send(sslconn, f, 8192)
                 cost = time.time() - s
-
-                print(f'send cost: {cost} (file size: {self.BS * flen})')
+                print(f'ktls send cost: {cost} (file size: {self.BS * flen})')
 
                 sslconn.close()
 
@@ -67,7 +68,7 @@ class TestTLSSend(unittest.TestCase):
                 self.assertEqual(msg, raw)
 
     def test_diff_sieze_performance(self):
-        """test sendfile performance with different file size"""
+        """test ktls send performance with different file size"""
         host, port = self.HOST, self.PORT
         cert, key = self.CERT, self.KEY
         cipher = self.CIPHER_SUITE

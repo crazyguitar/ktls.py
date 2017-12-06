@@ -4,7 +4,8 @@ import unittest
 
 from ktls import (
     TestKTLS,
-    TestKTLShttps
+    TestKTLShttps,
+    TestSendfile
 )
 
 if __name__ == "__main__":

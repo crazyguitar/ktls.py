@@ -114,6 +114,8 @@ def generate_test_file(name: str, size: int):
     with open(name, 'wb') as f:
         m = os.urandom(size)
         f.write(m)
+        f.flush()
+        os.fsync(f.fileno())
 
 
 def sendfile(outfd: int, infd: int, count: int):

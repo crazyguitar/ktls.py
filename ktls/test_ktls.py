@@ -86,3 +86,36 @@ class TestKTLS(unittest.TestCase):
             sslconn.close()
 
         t.join()
+
+    def _client_echo_thread(self, host, port):
+        """ktls test client thread"""
+        time.sleep(1)
+        with client(self.HOST, self.PORT) as c:
+            smsg = b"Hello KTLS!"
+            c.send(smsg)
+            rmsg = recv(c, 1024)
+            self.assertEqual(smsg, rmsg)
+
+    def test_ktls_echo(self):
+        host, port = self.HOST, self.PORT
+        cert, key = self.CERT, self.KEY
+        cipher = self.CIPHER_SUITE
+
+        t = Thread(target=self._client_echo_thread, args=(host, port,))
+        t.daemon = True
+        t.start()
+
+        with server(host, port, cert, key, cipher) as (s, ctx):
+            conn, addr = s.accept()
+            sslconn = ctx.wrap_socket(conn, server_side=True)
+            sslconn = set_ktls_sockopt(sslconn)
+
+            # echo
+            fd = sslconn.fileno()
+            rmsg = sslconn.recv(1024)
+            os.write(fd, rmsg)
+
+            # close the tls connection
+            sslconn.close()
+
+        t.join()

@@ -16,10 +16,17 @@ The idea was inspired from [PLAYING WITH KERNEL TLS IN LINUX 4.13 AND GO](https:
 #### Manual install cpython with supproting KTLS
 
 ```bash
+# install cpython
 $ git clone -b v3.6.3-ktls-patch https://github.com/crazyguitar/cpython
 $ cd cpython
 $ ./configure --prefix=/usr --enable-optimizations
 $ make -j 9 && sudo make altinstall
+
+# if CONFIG_TLS=m, run the following commands to check that tls.ko has been inserted.
+$ lsmod | grep tls
+$ modprobe tls
+
+# run the https server with supporting ktls
 $ git clone https://github.com/crazyguitar/ktls.py.git
 $ cd ktls.py
 $ python3.6 https.py &

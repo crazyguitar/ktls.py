@@ -66,4 +66,7 @@ $ make
 3. [Improving High-Bandwidth TLS in the FreeBSD kernel](https://openconnect.netflix.com/publications/asiabsd_tls_improved.pdf)
 4. [Optimizing TLS for High-Bandwidth Applications in FreeBSD](https://people.freebsd.org/~rrs/asiabsd_2015_tls.pdf)
 5. [TLS in the kernel](https://lwn.net/Articles/666509/)
-6. [Playing with kernel TLS in Linux 4.13 and Go](https://blog.filippo.io/playing-with-kernel-tls-in-linux-4-13-and-go/)
+6. [djwatson/ktls](https://github.com/djwatson/ktls)
+7. [ktls/af\_ktls-tool](https://github.com/ktls/af_ktls-tool)
+8. [torvalds/linux](https://github.com/torvalds/linux/commit/3c4d7559159bfe1e3b94df3a657b2cda3a34e218#diff-73b799da1e566d9e03cb5d9eeac73680)
+9. [Playing with kernel TLS in Linux 4.13 and Go](https://blog.filippo.io/playing-with-kernel-tls-in-linux-4-13-and-go/)

@@ -2,12 +2,14 @@
 
 [![Build Status](https://travis-ci.org/crazyguitar/ktls.py.svg?branch=master)](https://travis-ci.org/crazyguitar/ktls.py)
 
-ktls.py provides several scripts to test linux kernel TLS in Python.
+ktls.py provides serveral tests and scripts to play linux kernel TLS in [cpython](https://github.com/crazyguitar/cpython/commit/3f11d3e046e4ad8630e15feaf6cd848d1f73a324). 
+The idea was inspired from [PLAYING WITH KERNEL TLS IN LINUX 4.13 AND GO](https://blog.filippo.io/playing-with-kernel-tls-in-linux-4-13-and-go/).
 
 ## Prerequisite
 
 1. Linux kernel 4.13 or above (option CONFIG\_TLS=y or CONFIG\_TLS=m)
 2. openssl 1.0.x
+3. The ktls patch of [cpython](https://github.com/crazyguitar/cpython/tree/v3.6.3-ktls-patch)
 
 ## Install
 
@@ -18,6 +20,10 @@ $ git clone -b v3.6.3-ktls-patch https://github.com/crazyguitar/cpython
 $ cd cpython
 $ ./configure --prefix=/usr --enable-optimizations
 $ make -j 9 && sudo make altinstall
+$ git clone https://github.com/crazyguitar/ktls.py.git
+$ cd ktls.py
+$ python3.6 https.py &
+$ wget -qO- https://localhost:4433 --no-check-certificate
 ```
 
 #### Using vagrant
@@ -28,10 +34,9 @@ $ vagrant up
 $ vagrant ssh
 vagrant@vagrant:~$ git clone https://github.com/crazyguitar/ktls.py.git
 vagrant@vagrant:~$ cd ktls.py
-vagrant@vagrant:~/ktls.py$ virtualenv venv
-vagrant@vagrant:~/ktls.py$ source venv/bin/activate
-(venv) vagrant@vagrant:~/ktls.py$ pip install -r requirements.txt
-(venv) vagrant@vagrant:~/ktls.py$ make
+vagrant@vagrant:~/ktls.py$ python3.6 https.py &
+[2] 7866
+vagrant@vagrant:~/ktls.py$ wget -qO- https://localhost:4433 --no-check-certificate 
 ```
 
 ## Run the tests

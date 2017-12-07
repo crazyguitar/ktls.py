@@ -5,5 +5,5 @@ all: lint test
 test:
 	python3.6 ktls.py
 lint:
-	flake8 ktls ktls.py
+	flake8 ktls ktls.py https.py
 clean:
